@@ -1,4 +1,9 @@
 # geneDB releases
+### v 0.1.1
+#### Aretas Gaspariunas, 2026-04
+
+Added GitHub Action to automatically detect and bank new IMGT releases on a weekly schedule.
+
 ### v 0.1.0 
 #### Jamie Heather @ MGH, 2023-04
 

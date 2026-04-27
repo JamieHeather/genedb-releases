@@ -1,0 +1,36 @@
+name: Harvest IMGT GENE-DB
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'  # Every Monday at 06:00 UTC
+  workflow_dispatch:
+
+jobs:
+  harvest:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install wget
+        run: sudo apt-get install -y wget
+
+      - name: Run harvest script
+        working-directory: scripts
+        run: python3 harvest-genedb.py
+
+      - name: Commit and push if new release detected
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add releases/
+          if git diff --cached --quiet; then
+            echo "No new release detected, nothing to commit"
+          else
+            git commit -m "$(date -u '+%Y-%m-%d'): new release detected"
+            git push
+          fi
