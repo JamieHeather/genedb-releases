@@ -7,6 +7,7 @@ Check the current IMGT/GENE-DB download page
 and download files if it's got a new release
 """
 
+import gzip
 import subprocess
 import urllib.request
 import os
@@ -54,3 +55,12 @@ if current_release != last_release:
     shutil.rmtree(wget_dir)
     clean_cmd = ("rm " + out_dir + '*=*')
     subprocess.call(clean_cmd, shell=True)
+
+    # Gzip FASTA files to keep the repo compact (~7x compression)
+    for fname in os.listdir(out_dir):
+        if '.fasta' not in fname or fname.endswith('.gz'):
+            continue
+        src_path = out_dir + fname
+        with open(src_path, 'rb') as src, gzip.open(src_path + '.gz', 'wb', compresslevel=9) as dst:
+            shutil.copyfileobj(src, dst)
+        os.remove(src_path)
