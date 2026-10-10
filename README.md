@@ -1,4 +1,9 @@
 # geneDB releases
+### v 0.1.2
+#### Aretas Gaspariunas, 2026-08
+
+FASTA files under `releases/` are now stored gzipped (`.fasta*.gz`) to keep the repo compact — the raw files compress ~7×. Decompress in place with `gunzip` or read directly in Python via `gzip.open(path, 'rt')`. All existing releases have been backfilled, and the weekly harvest Action now gzips new files automatically.
+
 ### v 0.1.1
 #### Aretas Gaspariunas, 2026-04
 
